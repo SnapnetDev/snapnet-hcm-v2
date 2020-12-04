@@ -34,7 +34,7 @@ jobs:
           # ftp server
           server: 166.62.10.49
           # ftp username
-          username: snaphcm@thehcmatrix.com
+          username: snaphcm@snapnet.thehcmatrix.com
           # ftp password
           password: x]sQejixAMsX
           # Server port to connect to (read your web hosts docs)
