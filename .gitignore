@@ -1,0 +1,8 @@
+*.env
+!.gitignore
+/.idea
+.idea/workspace.xml
+composer.lock
+/vendor
+/storage/*.key
+/public/storage
