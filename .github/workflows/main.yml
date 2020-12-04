@@ -32,7 +32,7 @@ jobs:
         uses: SamKirkland/FTP-Deploy-Action@4.0.0
         with:
           # ftp server
-          server: 197.210.45.34
+          server: 166.62.10.49
           # ftp username
           username: snaphcm@thehcmatrix.com
           # ftp password
