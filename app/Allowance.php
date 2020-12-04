@@ -8,4 +8,5 @@ class Allowance extends Model
 {
     protected $fillable = ['name','location'];
     private $change = 'test';
+    ///...hello....
 }
