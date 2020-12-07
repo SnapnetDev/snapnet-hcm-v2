@@ -40,7 +40,7 @@
                         <div class="panel-heading">
                             <h3 class="panel-title">Opportunities</h3>
                             <div class="panel-actions">
-                                <button class="btn btn-outline btn-default" data-target="#exampleNiftyFadeScale"
+                                <button class="btn btn-outline btn-primary" data-target="#exampleNiftyFadeScale"
                                         data-toggle="modal" type="button">Add Commission to Staff
                                 </button>
 

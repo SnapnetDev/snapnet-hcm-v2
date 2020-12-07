@@ -218,6 +218,16 @@
                                                     </a>
                                                 </li>
                                             @endif
+                                            <li class="site-menu-item ">
+                                                <a class="animsition-link" href="{{url('/employee-commissions')}}">
+                                                    <span class="site-menu-title">My PBI</span>
+                                                </a>
+                                            </li>
+                                            <li class="site-menu-item ">
+                                                <a class="animsition-link" href="{{url('/employee-shares')}}">
+                                                    <span class="site-menu-title">My Shares</span>
+                                                </a>
+                                            </li>
 
                                             <li class="site-menu-item ">
                                                 <a class="animsition-link" href="{{ url('leave/myrequests') }}">
