@@ -418,3 +418,32 @@ Route::get('/getCalendar/', 'Bot@getCalendar');
 
 Route::post('/settings/integration/save_policy', 'SystemSettingController@saveIntegrationPolicy')->middleware(['permission:edit_settings','auth'])->name('integration_policy.store');
 Route::get('/systemsettings/generate_app_key/', 'SystemSettingController@generateAppKey');
+
+
+//commissions
+//Route::get('commissions-opportunities','Commissions\OpportunityController@index')->middleware('auth')->name('commissions.opportunities');
+//Route::get('commissions','Commissions\CommissionController@index')->middleware('auth')->name('commissions.index');
+Route::resource('commissions', 'CommissionController');
+Route::resource('opportunities', 'OpportunityController');
+Route::get('opportunity/commissions/{id}','OpportunityController@showOpportunity')->middleware('auth');
+Route::get('add-staff-commission/{id}','OpportunityController@showOpportunity')->middleware('auth');
+Route::get('pay-staff-commission/{id}','CommissionController@payCommission')->middleware('auth');
+Route::get('user/commissions/{id}','CommissionController@userCommission')->middleware('auth');
+Route::get('employee-commissions','CommissionController@myCommission')->middleware('auth');
+
+Route::get('commissions-template','CommissionController@downloadTemplate')->middleware('auth');
+Route::post('commissions-excel','CommissionController@excelImport')->middleware('auth');
+
+Route::get('opportunity-template','OpportunityController@downloadTemplate')->middleware('auth');
+Route::post('opportunity-excel','OpportunityController@excelImport')->middleware('auth');
+
+//shares
+Route::resource('shares-allocations', 'SharesAllocationController');
+Route::get('employee-shares','SharesAllocationController@myShares')->middleware('auth');
+Route::get('user-shares/{id}','SharesAllocationController@userShares')->middleware('auth');
+Route::get('shares-getdetails/{id}','SharesAllocationController@getDetails')->middleware('auth');
+Route::get('end-of-year/shares','SharesAllocationController@endofYearShares')->middleware('auth');
+Route::get('shares/excel-template','SharesAllocationController@excelTemplate')->middleware('auth');
+Route::post('shares/excel-template','SharesAllocationController@excelImport')->middleware('auth');
+Route::get('vest/breakdown/{id}','SharesAllocationController@vest_breakdown')->middleware('auth');
+Route::get('revoke/share/{id}','SharesAllocationController@revoke_share')->middleware('auth');
