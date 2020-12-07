@@ -34,8 +34,6 @@
         <div class="page-content container-fluid">
             <div class="row">
                 <div class="col col-lg-12">
-
-
                     <div class="panel panel-info panel-line">
                         <div class="panel-heading">
                             <h3 class="panel-title">Opportunities</h3>
@@ -43,8 +41,6 @@
                                 <button class="btn btn-outline btn-primary" data-target="#exampleNiftyFadeScale"
                                         data-toggle="modal" type="button">Add Commission to Staff
                                 </button>
-
-
                             </div>
                         </div>
                         <div class="panel-body">

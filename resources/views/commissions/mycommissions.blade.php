@@ -1,167 +1,168 @@
-@extends('layouts.app')
-
+@extends('layouts.master')
+@section('stylesheets')
+    <link rel="stylesheet" href="{{asset('global/vendor/bootstrap-datepicker/bootstrap-datepicker.css')}}">
+    <link rel="stylesheet" href="{{asset('global/vendor/bootstrap-maxlength/bootstrap-maxlength.css')}}">
+    <link rel="stylesheet" href="{{ asset('global/vendor/jt-timepicker/jquery-timepicker.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('global/vendor/datatables/datatables.min.css')}}">
+@endsection
 @section('content')
+    <!-- Page -->
+    <div class="page ">
+        <div class="page-header">
+            <h1 class="page-title">{{__('My Commissions : ')}}{{$user->name}}</h1>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{{url('/')}}">{{__('Home')}}</a></li>
+                <li class="breadcrumb-item active">{{__('Commissions')}}</li>
+            </ol>
+            <div class="page-header-actions">
+                <div class="row no-space w-250 hidden-sm-down">
 
-    <input type="hidden" value="{{csrf_token()}}" id="token"/>
-    <div class="page-header">
-        <h1 class="page-title">{{_t('My Commissions')}}:  {{$user->name}}</h1>
-        <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="/">{{_t('Home')}}</a></li>
-            <li class="breadcrumb-item active">{{_t('You are Here')}}</li>
-        </ol>
-        <div class="page-header-actions">
-            <div class="row no-space w-250 hidden-sm-down">
-
-                <div class="col-sm-6 col-xs-12">
-                    <div class="counter">
-                        <span class="counter-number font-weight-medium">{{date('Y-m-d')}}</span>
+                    <div class="col-sm-6 col-xs-12">
+                        <div class="counter">
+                            <span class="counter-number font-weight-medium">{{date('Y-m-d')}}</span>
+                        </div>
                     </div>
-                </div>
-                <div class="col-sm-6 col-xs-12">
-                    <div class="counter">
-                        <span class="counter-number font-weight-medium" id="time">08:32:56 am</span>
+                    <div class="col-sm-6 col-xs-12">
+                        <div class="counter">
+                            <span class="counter-number font-weight-medium" id="time"></span>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
 
-   {{-- <div class="panel">
-
-        <header class="panel-heading">
-            <div class="panel-actions"></div>
-            <h3 class="panel-title">
-                My Commissions
-            </h3>
-        </header>
-        <div class="panel-body">
-            <div class="col-xxl-3 col-xl-6 col-md-12">
-                <!-- Panel Pie -->
-                <div class="card card-shadow" id="chartPie">
-                    <div class="card-block p-0 p-30 h-full">
-                        <div class="font-size-20 text-center" style="height:calc(100% - 350px);">
-                            Summary of
-                            <div class="dropdown vertical-align-bottom font-size-20">
-                                <div class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false"
-                                     style="cursor: pointer;"
-                                     role="complementary">
-                                    Last month
-                                </div>
-                                <div class="dropdown-menu" role="menu">
-                                    <a class="dropdown-item" href="javascript:void(0)" role="menuitem">The month before
-                                        last</a>
-                                    <a class="dropdown-item" href="javascript:void(0)" role="menuitem">Three months
-                                        ago</a>
-                                </div>
+        <div class="page-content container-fluid">
+            <div class="row">
+                <div class="col col-lg-12">
+                    <div class="panel panel-info panel-line">
+                        <div class="panel-heading">
+                            <h3 class="panel-title"> My Commissions history</h3>
+                            <div class="panel-actions">
                             </div>
                         </div>
-                        <div class="ct-chart h-250"></div>
-                        <div class="row no-space mt-40">
-                            <div class="col-4">
-                                <div class="counter">
-                                    <div class="counter-number-group font-size-14">
-                                      <span class="counter-number-related">
-                                        <span class="icon wb-medium-point purple-600"></span>
-                                      </span>
-                                        <span class="counter-number font-size-24">35%</span>
-                                        <span class="counter-number-related font-size-14">42</span>
-                                    </div>
-                                    <div class="counter-label text-uppercase">TYPE A</div>
-                                </div>
-                            </div>
-                            <div class="col-4">
-                                <div class="counter">
-                                    <div class="counter-number-group font-size-14">
-                                          <span class="counter-number-related">
-                                            <span class="icon wb-medium-point red-600"></span>
-                                          </span>
-                                        <span class="counter-number font-size-24">20%</span>
-                                        <span class="counter-number-related font-size-14">24</span>
-                                    </div>
-                                    <div class="counter-label text-uppercase">TYPE B</div>
-                                </div>
-                            </div>
-                            <div class="col-4">
-                                <div class="counter text-center">
-                                    <div class="counter-number-group font-size-14">
-                                      <span class="counter-number-related">
-                                        <span class="icon wb-medium-point blue-600"></span>
-                                      </span>
-                                        <span class="counter-number font-size-24">45%</span>
-                                        <span class="counter-number-related font-size-14">54</span>
-                                    </div>
-                                    <div class="counter-label text-uppercase">TYPE C</div>
-                                </div>
+                        <div class="panel-body">
+                            <div class="table-responsive">
+                                <table class="table table-hover dataTable table-striped w-full" data-plugin="dataTable">
+                                    <thead>
+                                    <tr>
+                                        <th>Client Name</th>
+                                        <th>Project Name</th>
+                                        <th>Project Amount</th>
+                                        <th>Project Status</th>
+                                        <th>Project Project Status</th>
+                                        <th>My Commission</th>
+                                        <th>Payment Status</th>
+                                    </tr>
+                                    </thead>
+                                    <tfoot>
+                                    <tr>
+                                        <th>Client Name</th>
+                                        <th>Project Name</th>
+                                        <th>Project Amount</th>
+                                        <th>Project Status</th>
+                                        <th>Project Project Status</th>
+                                        <th>My Commission</th>
+                                        <th>Payment Status</th>
+                                    </tr>
+                                    </tfoot>
+                                    <tbody>
+                                    @foreach($commissions as $staff_commission)
+                                        <tr>
+                                            <td>{{$staff_commission->opportunity->client_id}}</td>
+                                            <td>{{$staff_commission->opportunity->project_name}}</td>
+                                            <td>{{number_format($staff_commission->opportunity->project_amount,2)}}</td>
+                                            <td>{{$staff_commission->opportunity->project_status}}</td>
+                                            <td>{{$staff_commission->opportunity->payment_status}}</td>
+                                            <td>{{number_format($staff_commission->commission,2)}}</td>
+                                            <td>{{$staff_commission->payment_status}}</td>
+                                        </tr>
+                                    @endforeach
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
                     </div>
                 </div>
-                <!-- End Panel Pie -->
+
             </div>
         </div>
-    </div>--}}
-
-    <div class="panel">
-        <header class="panel-heading">
-            <div class="panel-actions"></div>
-            <h3 class="panel-title">
-                My Commissions history
-            </h3>
-        </header>
-        <div class="panel-body">
-            <table class="table table-hover dataTable table-striped w-full" data-plugin="dataTable">
-                <thead>
-                <tr>
-                    <th>Client Name</th>
-                    <th>Project Name</th>
-                    <th>Project Amount</th>
-                    <th>Project Status</th>
-                    <th>Project Project Status</th>
-                    <th>My Commission</th>
-                    <th>Payment Status</th>
-                </tr>
-                </thead>
-                <tfoot>
-                <tr>
-                    <th>Client Name</th>
-                    <th>Project Name</th>
-                    <th>Project Amount</th>
-                    <th>Project Status</th>
-                    <th>Project Project Status</th>
-                    <th>My Commission</th>
-                    <th>Payment Status</th>
-                </tr>
-                </tfoot>
-                <tbody>
-                @foreach($commissions as $staff_commission)
-                    <tr>
-                        <td>{{$staff_commission->opportunity->client_id}}</td>
-                        <td>{{$staff_commission->opportunity->project_name}}</td>
-                        <td>{{number_format($staff_commission->opportunity->project_amount,2)}}</td>
-                        <td>{{$staff_commission->opportunity->project_status}}</td>
-                        <td>{{$staff_commission->opportunity->payment_status}}</td>
-                        <td>{{number_format($staff_commission->commission,2)}}</td>
-                        <td>{{$staff_commission->payment_status}}</td>
-                    </tr>
-                @endforeach
-                </tbody>
-            </table>
-        </div>
     </div>
-
-    <script>
-        $(function () {
-            setInterval(function () {
-                $('#time').html(new Date(new Date().getTime()).toLocaleTimeString());
-            }, 1000);
-        });
-    </script>
 @endsection
 
-@section('script')
-    <script src="{{asset('global/vendor/datatables/jquery.dataTables.js')}}"></script>
-    <script src="{{asset('global/vendor/datatables-fixedheader/dataTables.fixedHeader.js')}}"></script>
-    <script src="{{asset('global/vendor/datatables-bootstrap/dataTables.bootstrap.js')}}"></script>
-    <script src="{{asset('global/vendor/datatables-responsive/dataTables.responsive.js')}}"></script>
-    <script src="{{asset('global/vendor/datatables-tabletools/dataTables.tableTools.js')}}"></script>
+@section('scripts')
+    <script src="{{asset('global/vendor/bootstrap-table/bootstrap-table.min.js')}}"></script>
+    <script src="{{asset('global/vendor/bootstrap-table/extensions/mobile/bootstrap-table-mobile.js')}}"></script>
+    <script src="{{asset('global/vendor/bootstrap-datepicker/bootstrap-datepicker.js')}}"></script>
+    <script src="{{asset('global/vendor/jt-timepicker/jquery.timepicker.min.js')}}"></script>
+    <script src="{{asset('global/vendor/datepair/datepair.min.js')}}"></script>
+    <script src="{{asset('global/vendor/datepair/jquery.datepair.min.js')}}"></script>
+    <script type="text/javascript" src="{{ asset('global/vendor/datatables/jquery.dataTables.min.js')}}"></script>
+
+
+    <script>
+        function deleteCommission(id){
+            var txt;
+            var r = confirm("Are you sure you want to delete this commission?");
+            if (r == true) {
+                deleteCom(id)
+            } else {
+                toastr.error('It was not approved');
+            }
+        }
+
+        function deleteCom(id){
+            var token = '{{csrf_token()}}';
+            senddata={'_token':token,'commission_id':id,'type':'delete'};
+            $.ajax({
+                url: '{{url('commissions')}}',
+                type: 'POST',
+                data: senddata,
+                success: function (data, textStatus, jqXHR) {
+                    toastr.success('Successfully Deleted Commission');
+                    console.log(data)
+                    setTimeout(function () {
+                        window.location.reload();
+                    }, 2000);
+                },
+                error: function (data, textStatus, jqXHR) {
+
+                }
+            });
+        }
+        $(function () {
+            $(document).on('submit', '#addCommissionForm', function (event) {
+                $("#addCommissionFormSubmit").hide();
+                $("#loader").show();
+                var form = $(this);
+                var formdata = false;
+                if (window.FormData) {
+                    formdata = new FormData(form[0]);
+                }
+                $.ajax({
+                    url: '{{ url('/commissions') }}',
+                    data: formdata ? formdata : form.serialize(),
+                    cache: false,
+                    contentType: false,
+                    processData: false,
+                    type: 'POST',
+                    success: function (data, textStatus, jqXHR) {
+                        if (data.status==='success'){
+                            toastr.success(data.details);
+                            $('#addCommissionForm').trigger("reset");
+                            $("#addCommissionFormSubmit").show();
+                            $("#loader").hide();
+                            location.reload();
+                        }
+                        else {
+                            toastr.error(data.details);
+                        }
+                    },
+                    error: function (data, textStatus, jqXHR) {
+
+                    }
+                });
+                return event.preventDefault();
+            });
+        });
+    </script>
 @endsection

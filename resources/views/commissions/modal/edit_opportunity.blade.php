@@ -31,7 +31,7 @@
                             <div class="example" style="margin-bottom: 0px; margin-top: 0px">
                                 <h4 class="example-title">Project Payment Status</h4>
                                 <div class="form-group">
-                                    <select class="form-control select2-hidden-accessible" data-plugin="select2" data-select2-id="1" tabindex="-1" aria-hidden="true" name="payment_status" id="payment_status" required>
+                                    <select class="form-control" name="payment_status" id="payment_status" required>
                                         <option value="pending">Pending</option>
                                         <option value="part_payment">Part Payment</option>
                                         <option value="half_payment">Half Payment</option>
@@ -45,7 +45,7 @@
                             <div class="example" style="margin-bottom: 0px; margin-top: 0px">
                                 <h4 class="example-title">Project Status</h4>
                                 <div class="form-group">
-                                    <select class="form-control select2-hidden-accessible" data-plugin="select2" data-select2-id="1" tabindex="-1" aria-hidden="true" name="project_status" id="project_status" required>
+                                    <select class="form-control"  name="project_status" id="project_status" required>
                                         <option value="pending">Pending</option>
                                         <option value="ongoing">Ongoing</option>
                                         <option value="completed">Completed</option>
