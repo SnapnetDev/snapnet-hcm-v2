@@ -17,7 +17,7 @@
                             <div class="example-wrap m-sm-0">
                                 <h4 class="example-title">Select Staff</h4>
                                 <div class="form-group">
-                                    <select class="form-control select2-hidden-accessible" data-plugin="select2" data-select2-id="1" tabindex="-1" aria-hidden="true" name="staff_id" id="staff_id" required>
+                                    <select style="width: 100%;" class="form-control" data-plugin="select2" data-select2-id="1" tabindex="-1" aria-hidden="true" name="staff_id" id="staff_id" required>
                                         @foreach($staffs as $staff)
                                             <option value="{{ $staff->id }}">{{ $staff->name }}</option>
                                         @endforeach
