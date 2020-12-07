@@ -125,6 +125,16 @@
                                                             <span class="site-menu-title">Manage User Groups</span>
                                                         </a>
                                                     </li>
+                                                     <li class="site-menu-item ">
+                                                        <a class="animsition-link" href="{{ url('/opportunities')}}">
+                                                            <span class="site-menu-title">Project Based Incentives</span>
+                                                        </a>
+                                                    </li>
+                                                     <li class="site-menu-item ">
+                                                        <a class="animsition-link" href="{{ url('/shares-allocations')}}">
+                                                            <span class="site-menu-title">Shares Allocations</span>
+                                                        </a>
+                                                    </li>
 
                                                 @endif
                                                 @if(Auth::user()->role->permissions->contains('constant', 'view_timesheet')||Auth::user()->role->permissions->contains('constant', 'export_timesheet'))
@@ -513,16 +523,6 @@
                                     </div>
                                 </li>
                             @endif
-                            <li class="site-menu-section site-menu-item ">
-
-
-                                <a class="animsition-link" href="{{url('projects')}}">
-                                    <i class="site-menu-icon  fa fa-list" aria-hidden="true"></i>
-                                    <span class="site-menu-title">Project Management</span>
-
-                                </a>
-                            </li>
-
 
                             {{-- <li class="site-menu-section site-menu-item ">
 
