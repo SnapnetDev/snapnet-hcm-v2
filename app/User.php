@@ -718,6 +718,13 @@ public function getquarter(){
        return $this->hasMany('App\UserFingerPrint');
     }
 
+    public function myshares()
+    {
+        return $this->hasManyThrough('App\SharesVested', 'App\SharesAllocation');
+    }
+    public function shares_allocations(){
+        return $this->hasMany('App\SharesAllocation');
+    }
 
 
 
