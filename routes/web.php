@@ -632,7 +632,7 @@ Route::post('api/import-kpi-organisation-excel','Kpi\KpiController@storeKpiOrgan
 
 ////New Divide
 
-Route::get('app-get/{cmd}','FrontEndController@process')->middleware(['auth'])->name('app.get');
+Route::get('app-get/{cmd}','FrontEndControllerV2@process')->middleware(['auth'])->name('app.get');
 Route::post('app-exec/{cmd}','CommandController@process')->middleware(['auth'])->name('app.exec');
 
 Route::get('get-kpi-years',function (){
@@ -673,4 +673,17 @@ Route::get('test-expiration',function(){
 	dd($list);
 });
 
+
+Route::get('ping-user',function(){
+
+	//public_path('/uploads/json/'.$fileName)
+	$json = public_path('/json/1608638019_user.json');
+
+	$hnd = fopen($json, 'r+');
+	$data = fread($hnd, filesize($json) );
+	fclose($hnd);
+
+	return $data;
+
+});
 
