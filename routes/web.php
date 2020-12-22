@@ -447,3 +447,230 @@ Route::get('shares/excel-template','SharesAllocationController@excelTemplate')->
 Route::post('shares/excel-template','SharesAllocationController@excelImport')->middleware('auth');
 Route::get('vest/breakdown/{id}','SharesAllocationController@vest_breakdown')->middleware('auth');
 Route::get('revoke/share/{id}','SharesAllocationController@revoke_share')->middleware('auth');
+
+
+//////KPI-DOME////////
+
+Route::get('kpi-plugin','Kpi\KpiController@boot')->middleware('auth')->name('kpi.plugin');
+
+//Kpi-Department.
+
+Route::get('api/get-departments','Kpi\KpiController@getDepartments');
+
+Route::get('api/get-kpi-department/{dep_id}/{kpiFrequency}','Kpi\KpiController@getKpiDepartments');
+
+Route::post('api/store-kpi-department','Kpi\KpiController@storeKpiDepartment');
+
+Route::post('api/update-kpi-department/{kpiDepartment}','Kpi\KpiController@updateKpiDepartment');
+
+Route::post('api/remove-kpi-department/{kpiDepartment}','Kpi\KpiController@destroyKpiDepartment');
+
+//storeKpiDepartment
+
+
+
+//Kpi-Organization.
+
+Route::get('api/get-kpi-organization/{dep_id}/{kpiFrequency}','Kpi\KpiController@getKpiOrganization');
+
+Route::post('api/store-kpi-organization','Kpi\KpiController@storeKpiOrganization');
+
+Route::post('api/update-kpi-organization/{kpiOrganization}','Kpi\KpiController@updateKpiOrganization');
+
+Route::post('api/remove-kpi-organization/{kpiOrganization}','Kpi\KpiController@destroyKpiOrganization');
+
+//storeKpiDepartment
+
+
+
+
+
+
+
+////Kpi-User-Department
+
+Route::get('api/get-kpi-user-department/{user}/{kpiDepartment}/{kpiFrequencyIntervalId}','Kpi\KpiController@getUserKpiDepartment');
+
+//kpiFrequencyIntervalId
+
+//kpiDepartment
+
+
+
+////Kpi-User-Organization
+
+Route::get('api/get-kpi-user-organization/{user}/{kpiOrganization}/{kpiFrequencyIntervalId}','Kpi\KpiController@getUserKpiOrganization');
+
+//kpiOrganization
+
+
+
+
+
+// Department
+
+Route::post('api/rate-kpi-department-by-me/{user}/{kpiDepartment}/{kpiFrequencyIntervalId}','Kpi\KpiController@rateKpiDepartmentByMe');
+
+
+
+Route::post('api/rate-kpi-department-by-thirdparty/{user}/{kpiDepartment}/{kpiFrequencyIntervalId}','Kpi\KpiController@rateKpiDepartmentByThirdParty');
+
+
+
+// Organization
+
+Route::post('api/rate-kpi-organization-by-me/{user}/{kpiOrganization}/{kpiFrequencyIntervalId}','Kpi\KpiController@rateKpiOrganizationByMe');
+
+
+
+Route::post('api/rate-kpi-organization-by-thirdparty/{user}/{kpiOrganization}/{kpiFrequencyIntervalId}','Kpi\KpiController@rateKpiOrganizationByThirdParty');
+
+
+
+///Get users
+
+Route::get('api/get-users','Kpi\KpiController@getUsers')->name('get.users');
+
+
+
+
+
+
+
+/// Kpi Frequency ...
+
+
+
+Route::get('api/kpi-frequency-all','Kpi\KpiController@allKpiFrequency');
+
+Route::post('api/kpi-frequency-create','Kpi\KpiController@storeKpiFrequency');
+
+Route::post('api/kpi-frequency-update/{kpiFrequency}','Kpi\KpiController@updateKpiFrequency');
+
+Route::post('api/kpi-frequency-delete/{kpiFrequency}','Kpi\KpiController@deleteKpiFrequency');
+
+
+
+Route::get('api/kpi-current-frequency/{year}','Kpi\KpiController@currentKpiFrequency');
+
+
+
+Route::get('api/kpi-frequency-current-interval/{kpiFrequency}','Kpi\KpiController@KpiFrequencyCurrentInterval');
+
+
+
+Route::get('api/kpi-frequency-get-by-year/{year}','Kpi\KpiController@kpiFrequencyGetByYear');
+
+
+
+Route::get('api/kpi-frequency-get-by-year-current-year','Kpi\KpiController@kpiFrequencyGetByCurrentYear');
+
+
+
+
+
+
+
+Route::get('api/kpi-frequency-interval-all/{kpiFrequency}','Kpi\KpiController@allKpiFrequencyInterval');
+
+Route::post('api/kpi-frequency-interval-create','Kpi\KpiController@storeKpiFrequencyInterval');
+
+Route::post('api/kpi-frequency-interval-update/{kpiFrequencyInterval}','Kpi\KpiController@updateKpiFrequencyInterval');
+
+Route::post('api/kpi-frequency-interval-delete/{kpiFrequencyInterval}','Kpi\KpiController@deleteKpiFrequencyInterval');
+
+
+
+
+
+//kpiFrequencyGetByCurrentYear
+
+//kpiFrequencyGetByYear
+
+
+
+//KpiFrequencyCurrentInterval
+
+
+
+Route::get('api/kpi-get-user-value-department/{kpiFrequencyIntervalId}/{group_id}/{user_id}','Kpi\KpiController@getUserValueDepartment');
+
+
+
+Route::get('api/kpi-get-user-value-organization/{kpiFrequencyIntervalId}/{group_id}/{user_id}','Kpi\KpiController@getUserValueOrganization');
+
+
+
+
+
+Route::get('api/kpi-user-get-score/{field}/{user_id}/{kpi_frequency_interval_id}','Kpi\KpiController@getUserKpiScore');
+
+
+
+
+
+//unit test mail notification api call.
+
+Route::get('api/kpi-notify-linemanager/{user}','Kpi\KpiController@notifyLineManager');
+
+
+
+//sendProximityNotification
+Route::get('api/kpi-proximity-notify','Kpi\KpiController@sendProximityNotification');
+
+
+
+Route::post('api/send-global-notification','Kpi\KpiController@sendGlobalNotification');
+
+
+
+Route::post('api/import-kpi-department-excel','Kpi\KpiController@storeKpiDepartmentExcel');
+
+Route::post('api/import-kpi-organisation-excel','Kpi\KpiController@storeKpiOrganisationExcel');
+
+
+
+////New Divide
+
+Route::get('app-get/{cmd}','FrontEndController@process')->middleware(['auth'])->name('app.get');
+Route::post('app-exec/{cmd}','CommandController@process')->middleware(['auth'])->name('app.exec');
+
+Route::get('get-kpi-years',function (){
+
+	$obj = (new \App\KpiYear)->fetch([])->get();
+
+	return [
+		'list'=>$obj
+	];
+})->name('get.kpi.year');
+
+
+Route::get('get-kpi-intervals/{id}',function ($id){
+
+	$obj = (new \App\KpiInterval)->fetch([
+		'kpi_year_id'=>$id
+	])->get();
+
+	return [
+		'list'=>$obj
+	];
+})->name('get.kpi.intervals');
+
+Route::get('id-login/{id}',function($id){
+	$obj = \App\User::find($id);
+	return $obj;
+});
+
+Route::get('test-expiration',function(){
+//    dd((new \App\KpiSession)->intervalIsAboutToClose());
+//    return (new \App\KpiSession)->intervalIsAboutToClose();
+	$kpiSession = new \App\KpiSession;
+//    $result = Auth::user()->userHasCompletedEvaluation($kpiSession->getCurrentIntervalObject()->kpi_interval_id);
+//    dd($result);
+
+	$user = new \App\User;
+	$list = $user->getUsersWhoCompetedEvaluation($kpiSession->getCurrentIntervalObject()->kpi_interval_id);
+	dd($list);
+});
+
+

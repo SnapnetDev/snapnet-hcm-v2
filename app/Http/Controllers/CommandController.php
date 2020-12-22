@@ -2,121 +2,91 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
-use App\Traits\CommandTrait;
-use App\Traits\MoodleTrait;
-use App\Traits\TrainingBudgetTrait;
-use App\Traits\TrainingPlanTrait;
-use App\Traits\TrainingUserPlanTrait;
+use App\KpiData;
+use App\KpiInterval;
+use App\KpiSession;
+use App\KpiUserScore;
+use App\KpiYear;
+use App\Traits\FrontEndTrait;
 use Illuminate\Http\Request;
 
 class CommandController extends Controller
 {
     //
 
+	use FrontEndTrait;
 
-	use CommandTrait;
-	use MoodleTrait;
-	use TrainingPlanTrait;
-	use TrainingBudgetTrait;
-	use TrainingUserPlanTrait;
-
-	function processAjaxAction(Request $request,$cmd){
-		return $this->runAjaxCommand($cmd, $request);
-	}
-
-	function processAction(Request $request,$cmd){
-		return $this->runActionCommand($cmd, $request);
+	function process($cmd){
+		return $this->execCommand($cmd);
 	}
 
 
-	function testCourses(){
-		//process-ajax-command
-		dd($this->fetchCourses());
-	}
-
-
-
-
-	function enrollUserAction($response,Request $request){
-
-//		echo $request->get('userId');
-//		dd($response);
-
-		return redirect()->back()->with('a','b')->with('c','d')->with($response);
-
-	}
-
-	function getTrackedCourse_(Request $request){
-		return $this->trackCourse($request);
-	}
-
-	function createTrainingPlan()
-	{
-		$response = $this->createTrainingPlan_();
-		return redirect()->back()->with($response);
-
-	}
-
-	function updateTrainingPlan()
-	{
-		$response = $this->updateTrainingPlan_([]);
+	function addKpiYear(){
+		$response = (new KpiYear)->createKpiYear();
 		return redirect()->back()->with($response);
 	}
 
-	function deleteTrainingPlan()
-	{
-		$response = $this->deleteTrainingPlan_();
+	function updateKpiYear(){
+		$response = (new KpiYear)->updateKpiYear();
 		return redirect()->back()->with($response);
 	}
 
-	function respondToTrainingPlan()
-	{
-		$response = $this->respondToTrainingPlan_();
+	function removeKpiYear(){
+		$response = (new KpiYear)->removeKpiYear();
 		return redirect()->back()->with($response);
-
-	}
-
-	function createTrainingBudget()
-	{
-		$response = $this->createTrainingBudget_();
-		return redirect()->back()->with($response);
-
-	}
-
-	function updateTrainingBudget()
-	{
-		$response = $this->updateTrainingBudget_();
-		return redirect()->back()->with($response);
-
-	}
-
-	function deleteTrainingBudget()
-	{
-		$response = $this->deleteTrainingBudget_();
-		return redirect()->back()->with($response);
-
-	}
-
-	function updateUserTrainingPlan()
-	{
-		$response = $this->updateUserTrainingPlan_();
-		return redirect()->back()->with($response);
-
 	}
 
 
 
-//	function approveTrainingPlan()
-//	{
-//		$response = $this->approveTrainingPlan_();
-//		return redirect()->back()->with($response);
-//	}
-//
-//	function denyTrainingPlan()
-//	{
-//		$response = $this->denyTrainingPlan_();
-//		return redirect()->back()->with($response);
-//	}
+	function addKpiInterval(){
+		$response = (new KpiInterval)->createKpiInterval();
+		return redirect()->back()->with($response);
+	}
+
+	function updateKpiInterval(){
+	   $response = (new KpiInterval)->updateKpiInterval();
+	   return redirect()->back()->with($response);
+	}
+
+	function removeKpiInterval(){
+		$response = (new KpiInterval)->removeKpiInterval();
+		return redirect()->back()->with($response);
+	}
+
+	function addKpiData(){
+		$response = (new KpiData)->createKpiData();
+		return redirect()->back()->with($response);
+	}
+
+	function updateKpiData(){
+		$response = (new KpiData)->updateKpiData();
+		return redirect()->back()->with($response);
+	}
+
+	function removeKpiData(){
+		$response = (new KpiData)->removeKpiData();
+		return redirect()->back()->with($response);
+	}
+
+	function createIndividualKpi(){
+		$response = (new KpiUserScore)->createIndividualKpi();
+		return redirect()->back()->with($response);
+	}
+
+	function removeIndividualKpi(){
+		$response = (new KpiUserScore)->removeIndividualKpi();
+		return redirect()->back()->with($response);
+	}
+
+	function kpiCreateUserScore(){
+		$response = (new KpiUserScore)->createUserScore();
+		return $response;
+	}
+
+	function sendGeneralNotification(){
+		$response = (new KpiSession)->sendGeneralNotification();
+		return redirect()->back()->with($response)->withInput();
+	}
+
 
 }
