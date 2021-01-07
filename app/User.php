@@ -3,28 +3,33 @@
 namespace App;
 
 use App\Traits\General;
+use App\Traits\JSONImport;
 use App\Traits\ModelTraits\UserHelperTrait;
 use Carbon\Carbon;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\Auth;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\Activitylog\Traits\CausesActivity;
 // use Auth;
 
 class User extends Authenticatable
 {
+
     use Notifiable;
     use LogsActivity;
     use General;
     use CausesActivity;
     use UserHelperTrait;
+    
+    use JSONImport;
 
     /**
      * The attributes that are mass assignable.
      *
      * @var array
-     */
+    */
 
     protected static $logUnguarded = true;
     protected static $logOnlyDirty = true;
@@ -57,8 +62,17 @@ class User extends Authenticatable
     protected static function boot()
     {
         parent::boot();
-        if(!\Auth::guest()){
-        $auth = \Auth::user();
+
+        // !\Auth::guest()
+
+//	    Auth::logout();
+
+        if( Auth::check() ){
+
+        $auth = Auth::user();
+
+//	        dd($auth);
+
     //     if (session()->has('company_id')) {
     //     $comp_id=session('company_id');
     //     static::addGlobalScope('company_id', function (Builder $builder) use ($auth,$comp_id){
@@ -122,22 +136,41 @@ class User extends Authenticatable
 
         static::addGlobalScope('company_id', function (Builder $builder) use ($auth){
 
-               if ($auth->role->permissions->contains('constant', 'group_access')) {
+
+        	dd( $auth,$auth->role ,Role::find($auth->role_id));
+
+	        if ($auth->role->permissions->contains('constant', 'group_access')) {
+
                         $builder->where('company_id', '>',  0);
 
-                }
-                else{
+	        } else {
+
                     $builder->where('company_id', $auth->company_id);
-                }
+
+	        }
 
         });
+
+
+
         }
+
+
+
     }
 
     public function role()
     {
-        return $this->belongsTo('App\Role');
+        return $this->belongsTo('App\Role','role_id');
     }
+
+
+//	public function role2()
+//	{
+//		return $this->belongsTo('App\Role','role_id');
+//	}
+
+
     public function branch()
     {
         return $this->belongsTo('App\Branch');
@@ -724,6 +757,13 @@ public function getquarter(){
     }
     public function shares_allocations(){
         return $this->hasMany('App\SharesAllocation');
+    }
+
+
+    function importFromJSON($jsonResource){
+   	  $this->importJSONArray($jsonResource, function($k,$v){
+
+      });
     }
 
 
