@@ -137,7 +137,7 @@ class User extends Authenticatable
         static::addGlobalScope('company_id', function (Builder $builder) use ($auth){
 
 
-        	dd( $auth,$auth->role ,Role::find($auth->role_id));
+//        	dd( $auth,$auth->role ,Role::find($auth->role_id));
 
 	        if ($auth->role->permissions->contains('constant', 'group_access')) {
 
