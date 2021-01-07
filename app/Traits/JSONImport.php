@@ -20,19 +20,24 @@ trait JSONImport
 		$data = fread($hnd, filesize($json) );
 		fclose($hnd);
 
-		$data = json_decode($data);
+		$data = json_decode($data,true);
+		//*996#
 
-		if (method_exists($this, $callback)){
+		if (is_callable($callback)){}
 
-			foreach ($data as $k=>$v){
-				$this->$callback($k,$v);
-			}
-			
+		foreach ($data as $k=>$v){
+
+			$callback($k,$v);
+
 		}
+
+//		if (method_exists($this, $callback)){
+//
+//		}
 
 	}
 	
 	
-	
+
 
 }

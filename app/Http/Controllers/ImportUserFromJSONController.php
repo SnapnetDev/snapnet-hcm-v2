@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\User;
 use Illuminate\Http\Request;
 
 class ImportUserFromJSONController extends Controller
@@ -23,7 +24,11 @@ class ImportUserFromJSONController extends Controller
      */
     public function create()
     {
+
         //
+
+	    return view('import_json.create');
+
     }
 
     /**
@@ -36,11 +41,16 @@ class ImportUserFromJSONController extends Controller
     {
         //
 	    //ping-user
-	    $json = public_path('/json/1608638019_user.json');
+	    $json = '/json/1608638019_user.json'; //public_path('/json/1608638019_user.json');
 
-	    $hnd = fopen($json, 'r+');
-	    $data = fread($hnd, filesize($json) );
-	    fclose($hnd);
+	    (new User)->importFromJSON($json);
+
+//	    $hnd = fopen($json, 'r+');
+//	    $data = fread($hnd, filesize($json) );
+//
+//	    fclose($hnd);
+//
+//	    dd(json_decode($data));
 
     }
 

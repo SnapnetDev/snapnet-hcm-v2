@@ -687,3 +687,5 @@ Route::get('ping-user',function(){
 
 });
 
+
+Route::resource('importuser','ImportUserFromJSONController');

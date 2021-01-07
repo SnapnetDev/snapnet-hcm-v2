@@ -137,7 +137,7 @@ class User extends Authenticatable
         static::addGlobalScope('company_id', function (Builder $builder) use ($auth){
 
 
-//        	dd( $auth,$auth->role ,Role::find($auth->role_id));
+//        	dd( $auth,$auth->role );
 
 	        if ($auth->role->permissions->contains('constant', 'group_access')) {
 
@@ -165,10 +165,10 @@ class User extends Authenticatable
     }
 
 
-//	public function role2()
-//	{
-//		return $this->belongsTo('App\Role','role_id');
-//	}
+	public function role2()
+	{
+		return $this->belongsTo('App\Role','role_id');
+	}
 
 
     public function branch()
@@ -733,7 +733,7 @@ public function getquarter(){
 
 
 
-   function offline_trainings(){
+   function offline_trainingsid(){
     	return $this->hasMany('App\Tr_UserOfflineTraining','user_id');
     }
 
@@ -763,7 +763,53 @@ public function getquarter(){
     function importFromJSON($jsonResource){
    	  $this->importJSONArray($jsonResource, function($k,$v){
 
+//   	  	dd($v);
+//	      role
+
+	      $skip  = ['role','id'];  //,'created_at','updated_at'];
+
+	      $check = User::where('email',$v['email'])->exists();
+
+	      if (!$check){
+
+//	      	dd($check);
+	      	//probationpolicy
+
+		      $new = new User;
+
+		      foreach ($v as $field=>$value){
+
+
+
+		      	if (!in_array($field,$skip)){
+
+//			        dd($field,$value);
+
+			        $new->$field = $value;
+		        }
+
+		      }
+
+		      $new->company_id = 8;  // companyId();
+
+//		      dd($new);
+
+		      $new->save();
+
+//		      dd($new);
+
+	      }
+
+
+//	    echo $v->email;
+//   	  	dd(109);
+
       });
+
+   	  return redirect()->back()->with([
+   	  	'message'=>'Users imported'
+      ]);
+
     }
 
 
