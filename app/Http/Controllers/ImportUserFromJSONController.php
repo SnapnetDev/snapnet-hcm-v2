@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\JobAva;
+use App\KpiAgreement;
+use App\KpiData;
 use App\User;
 use Illuminate\Http\Request;
 
@@ -39,11 +42,58 @@ class ImportUserFromJSONController extends Controller
      */
     public function store(Request $request)
     {
+
+    	if (!request()->filled('type')){
+    		return redirect()->back()->with([
+    			'message'=>'Type required!'
+		    ]);
+	    }
+	    $type = request('type');
+
+
+    	if ($type == 'user'){
+
+		    $json = '/json/1608638019_user.json'; //public_path('/json/1608638019_user.json');
+		    return (new User)->importFromJSON($json);
+	    }
+
+
+	    if ($type == 'job_ava'){
+		    $json = '/json/1608638019_job_ava.json'; //public_path('/json/1608638019_user.json');
+		    return (new JobAva)->importFromJSON($json);
+	    }
+
+	    if ($type == 'kpi_agreement'){
+		    $json = '/json/1608638019_kpi_agreement.json'; //public_path('/json/1608638019_user.json');
+		    return (new KpiAgreement)->importFromJSON($json);
+	    }
+
+	    if ($type == 'kpi_data'){
+		    $json = '/json/1608638019_kpi_data.json'; //public_path('/json/1608638019_user.json');
+		    return (new KpiData)->importFromJSON($json);
+	    }
+
+	    if ($type == 'kpi_interval'){
+		    $json = '/json/1608638019_kpi_agreement.json'; //public_path('/json/1608638019_user.json');
+//		    return (new KpiAgreement)->importFromJSON($json);
+	    }
+
+	    if ($type == 'kpi_session'){
+		    $json = '/json/1608638019_kpi_agreement.json'; //public_path('/json/1608638019_user.json');
+//		    return (new KpiAgreement)->importFromJSON($json);
+	    }
+
+	    if ($type == 'kpi_user_score'){
+		    $json = '/json/1608638019_kpi_agreement.json'; //public_path('/json/1608638019_user.json');
+//		    return (new KpiAgreement)->importFromJSON($json);
+	    }
+
+	    if ($type == 'kpi_year'){
+		    $json = '/json/1608638019_kpi_agreement.json'; //public_path('/json/1608638019_user.json');
+//		    return (new KpiAgreement)->importFromJSON($json);
+	    }
         //
 	    //ping-user
-	    $json = '/json/1608638019_user.json'; //public_path('/json/1608638019_user.json');
-
-	    (new User)->importFromJSON($json);
 
 //	    $hnd = fopen($json, 'r+');
 //	    $data = fread($hnd, filesize($json) );

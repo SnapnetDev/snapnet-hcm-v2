@@ -2,10 +2,13 @@
 
 namespace App;
 
+use App\Traits\ImportTrait;
+use App\Traits\JSONImport;
 use Illuminate\Database\Eloquent\Model;
 
 class KpiAgreement extends Model
 {
+	use JSONImport;
     //
 	protected $table = 'kpi_agreement';
 
@@ -75,5 +78,47 @@ class KpiAgreement extends Model
 		];
 
 	}
+
+
+
+	function importFromJSON($jsonResource){
+		$dups = 0;
+
+		$this->importJSONArray($jsonResource, function($k,$v) use (&$dups){
+
+
+			$check = KpiAgreement::where('kpi_interval_id',$v['kpi_interval_id'])->where('user_id',$v['user_id'])->exists();
+
+			if (!$check){
+
+
+				$new = new KpiAgreement;
+
+				foreach ($v as $field=>$value){
+
+					$new->$field = $value;
+
+				}
+
+
+				$new->save();
+
+				return;
+
+
+			}
+
+			$dups = $dups + 1;
+
+
+		});
+
+		return redirect()->back()->with([
+			'message'=>'Kpi agreement imported ( ' . $dups . ' duplicate(s) - Found. )'
+		]);
+
+	}
+
+
 
 }

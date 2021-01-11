@@ -3,6 +3,7 @@
 namespace App;
 
 use App\Traits\FilterHelperTrait;
+use App\Traits\JSONImport;
 use App\Traits\KpiDataReportTrait;
 use App\Traits\KpiDataTrait;
 use App\Traits\KpiFilterTrait;
@@ -15,6 +16,9 @@ class KpiData extends Model
 	use KpiFilterTrait;
 	use FilterHelperTrait;
 	use KpiDataTrait;
+
+	use JSONImport;
+
     //
 	protected $table = 'kpi_data';
 	protected $with = ['user_score'];
@@ -57,5 +61,58 @@ class KpiData extends Model
 
 
 	}
+
+
+
+
+	function importFromJSON($jsonResource){
+		$dups = 0;
+
+		$this->importJSONArray($jsonResource, function($k,$v) use (&$dups){
+
+		   $skip = ['user_score'];
+
+			$check = KpiData::where([
+				'kpi_interval_id'=>$v['kpi_interval_id'],
+				'dep_id'=>$v['dep_id'],
+				'type'=>$v['type'],
+				'scope'=>$v['scope'],
+				'requirement'=>$v['requirement']
+			])->exists();
+
+			if (!$check){
+
+
+				$new = new KpiData;
+
+				foreach ($v as $field=>$value){
+
+					if (!in_array($field, $skip)){
+						$new->$field = $value;
+					}
+
+				}
+
+
+				$new->save();
+
+				return;
+
+			}
+
+			$dups = $dups + 1;
+
+
+		});
+
+		return redirect()->back()->with([
+			'message'=>'Kpi data imported ( ' . $dups . ' duplicate(s) - Found. )'
+		]);
+
+	}
+
+
+
+
 
 }

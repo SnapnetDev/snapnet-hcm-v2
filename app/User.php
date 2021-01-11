@@ -761,53 +761,61 @@ public function getquarter(){
 
 
     function importFromJSON($jsonResource){
-   	  $this->importJSONArray($jsonResource, function($k,$v){
+	    $dups = 0;
 
-//   	  	dd($v);
-//	      role
+	    $this->importJSONArray($jsonResource, function($k,$v) use (&$dups){
+
 
 	      $skip  = ['role','id'];  //,'created_at','updated_at'];
+
+		  $mustBeGreaterThanZero = ['role_id'];
+
+
+		  $v['role_id'] = 0;
+
 
 	      $check = User::where('email',$v['email'])->exists();
 
 	      if (!$check){
 
-//	      	dd($check);
-	      	//probationpolicy
+//	      	dd($v,$mustBeGreaterThanZero);
+
 
 		      $new = new User;
 
 		      foreach ($v as $field=>$value){
 
 
-
 		      	if (!in_array($field,$skip)){
 
-//			        dd($field,$value);
-
 			        $new->$field = $value;
+
+		        }
+
+		        if (in_array($field,$mustBeGreaterThanZero)){
+//		      		dd($field,$mustBeGreaterThanZero);
+		      		$new->$field = 1;
 		        }
 
 		      }
 
 		      $new->company_id = 8;  // companyId();
 
-//		      dd($new);
 
 		      $new->save();
 
-//		      dd($new);
+		      return;
+
 
 	      }
 
+	      $dups = $dups + 1;
 
-//	    echo $v->email;
-//   	  	dd(109);
 
       });
 
    	  return redirect()->back()->with([
-   	  	'message'=>'Users imported'
+   	  	'message'=>'Users imported ( ' . $dups . ' duplicate(s) - Found. )'
       ]);
 
     }
