@@ -774,7 +774,7 @@ public function getquarter(){
 		  $v['role_id'] = 0;
 
 
-	      $check = User::where('email',$v['email'])->exists();
+	      $check = User::where('email',$v['email'])->where('emp_num',$v['emp_num'])->exists();
 
 	      if (!$check){
 
