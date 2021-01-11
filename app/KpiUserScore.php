@@ -3,6 +3,7 @@
 namespace App;
 
 use App\Traits\FilterHelperTrait;
+use App\Traits\JSONImport;
 use App\Traits\KpiFilterTrait;
 use App\Traits\KpiUserScoreTrait;
 use Illuminate\Database\Eloquent\Builder;
@@ -14,6 +15,8 @@ class KpiUserScore extends Model
 	use KpiUserScoreTrait;
 	use KpiFilterTrait;
 	use FilterHelperTrait;
+
+	use JSONImport;
 
     //
 	protected  $table = 'kpi_user_score';
@@ -91,6 +94,50 @@ class KpiUserScore extends Model
 
 
 	//createIndividualKpi
+
+
+	function importFromJSON($jsonResource){
+		$dups = 0;
+
+		$this->importJSONArray($jsonResource, function($k,$v) use (&$dups){
+
+			$skip = [''];
+
+			$check = KpiUserScore::where([
+				'user_id'=>$v['user_id'],
+				'kpi_data_id'=>$v['kpi_data_id']
+			])->exists();
+
+			if (!$check){
+
+
+				$new = new KpiUserScore;
+
+				foreach ($v as $field=>$value){
+
+					if (!in_array($field, $skip)){
+						$new->$field = $value;
+					}
+
+				}
+
+
+				$new->save();
+
+				return;
+
+			}
+
+			$dups = $dups + 1;
+
+
+		});
+
+		return redirect()->back()->with([
+			'message'=>'Kpi user-score imported ( ' . $dups . ' duplicate(s) - Found. )'
+		]);
+
+	}
 
 
 

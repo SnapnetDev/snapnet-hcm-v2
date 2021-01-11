@@ -3,6 +3,7 @@
 namespace App;
 
 use App\Traits\FilterHelperTrait;
+use App\Traits\JSONImport;
 use App\Traits\KpiFilterTrait;
 use App\Traits\KpiIntervalTrait;
 use Illuminate\Database\Eloquent\Builder;
@@ -13,6 +14,8 @@ class KpiInterval extends Model
 	use KpiIntervalTrait;
 	use FilterHelperTrait;
 	use KpiFilterTrait;
+
+	use JSONImport;
 
     //
 	protected $table = 'kpi_interval';
@@ -55,6 +58,55 @@ class KpiInterval extends Model
 	   ])->where('id',(new KpiSession)->getCurrentIntervalId())->count();
 	   return ($recordCount >= 1);
 	}
+
+
+	function importFromJSON($jsonResource){
+		$dups = 0;
+
+		$this->importJSONArray($jsonResource, function($k,$v) use (&$dups){
+
+			$skip = [''];
+
+//			dd($v);
+
+			$check = KpiInterval::where([
+				'kpi_year_id'=>$v['kpi_year_id'],
+				'interval_start'=>$v['interval_start'],
+				'interval_stop'=>$v['interval_stop'],
+				'name'=>$v['name']
+			])->exists();
+
+			if (!$check){
+
+
+				$new = new KpiInterval;
+
+				foreach ($v as $field=>$value){
+
+					if (!in_array($field, $skip)){
+						$new->$field = $value;
+					}
+
+				}
+
+
+				$new->save();
+
+				return;
+
+			}
+
+			$dups = $dups + 1;
+
+
+		});
+
+		return redirect()->back()->with([
+			'message'=>'Kpi interval imported ( ' . $dups . ' duplicate(s) - Found. )'
+		]);
+
+	}
+
 
 
 }

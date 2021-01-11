@@ -3,6 +3,7 @@
 namespace App;
 
 use App\Traits\FilterHelperTrait;
+use App\Traits\JSONImport;
 use App\Traits\KpiFilterTrait;
 use App\Traits\KpiYearTrait;
 use Illuminate\Database\Eloquent\Builder;
@@ -18,6 +19,8 @@ class KpiYear extends Model
 	use KpiFilterTrait;
 	use KpiYearTrait;
 
+	use JSONImport;
+
 
 	function intervals(){
 		return $this->hasMany(KpiInterval::class,'kpi_year_id');
@@ -32,4 +35,49 @@ class KpiYear extends Model
 //		});
 
 	}
+
+
+
+	function importFromJSON($jsonResource){
+		$dups = 0;
+
+		$this->importJSONArray($jsonResource, function($k,$v) use (&$dups){
+
+			$skip = [''];
+
+			$check = KpiYear::where([
+				'year'=>$v['year']
+			])->exists();
+
+			if (!$check){
+
+
+				$new = new KpiYear;
+
+				foreach ($v as $field=>$value){
+
+					if (!in_array($field, $skip)){
+						$new->$field = $value;
+					}
+
+				}
+
+
+				$new->save();
+
+				return;
+
+			}
+
+			$dups = $dups + 1;
+
+
+		});
+
+		return redirect()->back()->with([
+			'message'=>'Kpi year imported ( ' . $dups . ' duplicate(s) - Found. )'
+		]);
+
+	}
+
 }

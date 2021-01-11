@@ -86,6 +86,7 @@ class KpiAgreement extends Model
 
 		$this->importJSONArray($jsonResource, function($k,$v) use (&$dups){
 
+//		   $skip = ['user_score'];
 
 			$check = KpiAgreement::where('kpi_interval_id',$v['kpi_interval_id'])->where('user_id',$v['user_id'])->exists();
 

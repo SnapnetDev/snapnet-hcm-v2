@@ -5,6 +5,10 @@ namespace App\Http\Controllers;
 use App\JobAva;
 use App\KpiAgreement;
 use App\KpiData;
+use App\KpiInterval;
+use App\KpiSession;
+use App\KpiUserScore;
+use App\KpiYear;
 use App\User;
 use Illuminate\Http\Request;
 
@@ -74,23 +78,23 @@ class ImportUserFromJSONController extends Controller
 	    }
 
 	    if ($type == 'kpi_interval'){
-		    $json = '/json/1608638019_kpi_agreement.json'; //public_path('/json/1608638019_user.json');
-//		    return (new KpiAgreement)->importFromJSON($json);
+		    $json = '/json/1608638019_kpi_interval.json'; //public_path('/json/1608638019_user.json');
+		    return (new KpiInterval)->importFromJSON($json);
 	    }
 
 	    if ($type == 'kpi_session'){
-		    $json = '/json/1608638019_kpi_agreement.json'; //public_path('/json/1608638019_user.json');
-//		    return (new KpiAgreement)->importFromJSON($json);
+		    $json = '/json/1608638019_kpi_session.json'; //public_path('/json/1608638019_user.json');
+		    return (new KpiSession)->importFromJSON($json);
 	    }
 
 	    if ($type == 'kpi_user_score'){
-		    $json = '/json/1608638019_kpi_agreement.json'; //public_path('/json/1608638019_user.json');
-//		    return (new KpiAgreement)->importFromJSON($json);
+		    $json = '/json/1608638019_kpi_user_score.json'; //public_path('/json/1608638019_user.json');
+		    return (new KpiUserScore)->importFromJSON($json);
 	    }
 
 	    if ($type == 'kpi_year'){
-		    $json = '/json/1608638019_kpi_agreement.json'; //public_path('/json/1608638019_user.json');
-//		    return (new KpiAgreement)->importFromJSON($json);
+		    $json = '/json/1608638019_kpi_year.json'; //public_path('/json/1608638019_user.json');
+		    return (new KpiYear)->importFromJSON($json);
 	    }
         //
 	    //ping-user
