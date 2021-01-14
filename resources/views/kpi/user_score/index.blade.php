@@ -68,9 +68,9 @@
     <!-- Page -->
 
 
-        <div class="page-header" style="padding-bottom: 0;">
-            <h1 class="page-title" style="text-transform: uppercase;">organisational and Functional Kpi Evaluation ( {{ $user->name }} ) / {{ $user->getDepartmentName() }}</h1>
-            <h1>{{ $currentInterval }}</h1>
+        <div class="page-header" style="padding-bottom: 0px;padding-left: 24px;font-size: 11px;text-align: center;">
+            <h1 class="page-title" style="font-size: 17px;text-transform: uppercase;">organisational and Functional Kpi Evaluation ( {{ $user->name }} ) / {{ $user->getDepartmentName() }}</h1>
+            <h1 style="font-size: 17px;">{{ $currentInterval }}</h1>
         </div>
 
 
@@ -215,9 +215,9 @@
 
 
     {{-- <script src="{{ asset('js/app.js') }}"></script> --}}
-    <script>
-        jQuery.fn.magnificPopup = function(){};
-    </script>
+    {{--<script>--}}
+        {{--jQuery.fn.magnificPopup = function(){};--}}
+    {{--</script>--}}
 @endsection
 
 @section('scripts')

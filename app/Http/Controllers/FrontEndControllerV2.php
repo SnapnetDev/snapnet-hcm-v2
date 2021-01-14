@@ -182,6 +182,7 @@ class FrontEndControllerV2 extends Controller
 		])->get();
 		//kpi_user_score_user_id
 
+//		dd(9);
 		$data['organisation_list'] = (new KpiData)->fetch([
 			'type'=>'org',
 			'kpi_interval_id'=>$kpi_interval_id,

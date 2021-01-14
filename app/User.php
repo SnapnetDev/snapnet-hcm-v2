@@ -2,9 +2,13 @@
 
 namespace App;
 
+use App\Traits\FilterHelperTrait;
 use App\Traits\General;
 use App\Traits\JSONImport;
+use App\Traits\KpiFilterTrait;
+use App\Traits\KpiInspectTrait;
 use App\Traits\ModelTraits\UserHelperTrait;
+use App\Traits\UserRoleTrait;
 use Carbon\Carbon;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -22,8 +26,18 @@ class User extends Authenticatable
     use General;
     use CausesActivity;
     use UserHelperTrait;
+
+    use FilterHelperTrait;
     
     use JSONImport;
+
+//    use KpiFilterTrait;
+
+	use UserRoleTrait;
+	use FilterHelperTrait;
+	use KpiFilterTrait;
+	use KpiInspectTrait;
+
 
     /**
      * The attributes that are mass assignable.
@@ -819,6 +833,38 @@ public function getquarter(){
       ]);
 
     }
+
+
+	public function loadFilters()
+	{
+
+		$ref = $this;
+
+		$this->addFilter(['workdept_id'], function(Builder $builder,$filter) use ($ref){
+
+			return $ref->filterByUserDepartmentId($builder, $filter);
+
+		});
+
+		$this->addFilter(['user_id','kpi_interval_id','agreement'], function(Builder $builder,$filters) use ($ref){
+
+			return $builder->whereHas('kpi_agreement',function(Builder $builder) use ($ref,$filters){
+
+				return $builder->where('status',1)->where('user_id',$filters['user_id'])->where('kpi_interval_id',$filters['kpi_interval_id']);
+
+			});
+
+
+		});
+
+		$this->addFilter(['job_id'], function(Builder $builder,$filter) use ($ref){
+
+			return $builder->where('job_id',$filter['job_id']);
+
+		});
+
+
+	}
 
 
 
